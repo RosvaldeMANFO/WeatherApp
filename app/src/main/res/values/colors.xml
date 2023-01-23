@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="WinterPrimary">#1B3B5A</color>
+    <color name="SpringPrimary">#4AC382</color>
+    <color name="SummerPrimary">#FF9B58</color>
+    <color name="FallPrimary">#9A031E</color>
 </resources>

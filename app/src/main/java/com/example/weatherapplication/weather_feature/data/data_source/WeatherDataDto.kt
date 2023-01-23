@@ -1,4 +1,4 @@
-package com.example.weatherapplication.data.data_source
+package com.example.weatherapplication.weather_feature.data.data_source
 
 import com.squareup.moshi.Json
 
@@ -12,6 +12,6 @@ data class WeatherDataDto(
     val pressures: List<Double>,
     @field:Json(name = "windspeed_10m")
     val windSpeeds: List<Double>,
-    @field:Json(name = "relativehmidity_2m")
+    @field:Json(name = "relativehumidity_2m")
     val humidities: List<Double>
 )

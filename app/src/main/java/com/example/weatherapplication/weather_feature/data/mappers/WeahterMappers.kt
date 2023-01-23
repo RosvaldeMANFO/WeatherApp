@@ -1,12 +1,15 @@
-package com.example.weatherapplication.data.mappers
+package com.example.weatherapplication.weather_feature.data.mappers
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
-import com.example.weatherapplication.data.data_source.WeatherDataDto
-import com.example.weatherapplication.data.data_source.WeatherDto
-import com.example.weatherapplication.domain.weather.WeatherData
-import com.example.weatherapplication.domain.weather.WeatherInfo
-import com.example.weatherapplication.domain.weather.WeatherType
+import com.example.weatherapplication.weather_feature.data.data_source.WeatherDataDto
+import com.example.weatherapplication.weather_feature.data.data_source.WeatherDto
+import com.example.weatherapplication.weather_feature.domain.weather.WeatherData
+import com.example.weatherapplication.weather_feature.domain.weather.WeatherInfo
+import com.example.weatherapplication.weather_feature.domain.weather.WeatherType
+import com.google.gson.Gson
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -18,6 +21,7 @@ private data class IndexWeatherData(
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun WeatherDataDto.toWeatherDataMap(): Map<Int, List<WeatherData>>{
+    Log.e("Time", Gson().toJson(this))
     return time.mapIndexed{index, time ->
         val temperature = temperatures[index]
         val weatherCode = weatherCodes[index]

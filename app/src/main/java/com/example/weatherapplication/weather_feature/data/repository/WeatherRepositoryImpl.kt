@@ -1,12 +1,13 @@
-package com.example.weatherapplication.data.repository
+package com.example.weatherapplication.weather_feature.data.repository
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
-import com.example.weatherapplication.data.data_source.WeatherApi
-import com.example.weatherapplication.data.mappers.toWeatherInfo
-import com.example.weatherapplication.domain.repository.WeatherRepository
-import com.example.weatherapplication.domain.utils.Resource
-import com.example.weatherapplication.domain.weather.WeatherInfo
+import com.example.weatherapplication.weather_feature.data.data_source.WeatherApi
+import com.example.weatherapplication.weather_feature.data.mappers.toWeatherInfo
+import com.example.weatherapplication.weather_feature.domain.repository.WeatherRepository
+import com.example.weatherapplication.weather_feature.domain.utils.Resource
+import com.example.weatherapplication.weather_feature.domain.weather.WeatherInfo
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
@@ -23,6 +24,7 @@ class WeatherRepositoryImpl @Inject constructor(
             )
         } catch (e: Exception){
             e.printStackTrace()
+            Log.e("Exception", "${e.message}")
             Resource.Error(e.message?:"An unknown error occurred.")
         }
     }
