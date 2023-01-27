@@ -1,21 +1,38 @@
 package com.example.weatherapplication.ui.theme
 
 import android.os.Build
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.Spring
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.example.weatherapplication.R
 import java.time.LocalDateTime
 
-enum class Season{
-    WINTER,
-    SPRING,
-    SUMMER,
-    FALL
-}
+sealed class Season(
+    val weatherTitle: String,
+    @DrawableRes val imageRes: Int
+){
+    object Winter: Season(
+        weatherTitle = "Winter",
+        imageRes = R.mipmap.winter
+    )
+    object Summer: Season(
+        weatherTitle = "Summer",
+        imageRes = R.mipmap.summer
+    )
+    object Fall: Season(
+        weatherTitle = "Fall",
+        imageRes = R.mipmap.fall
+    )
+    object Spring: Season(
+        weatherTitle = "Spring",
+        imageRes = R.mipmap.spring
+    )
 
+}
 
 private val WinterThemeColor = lightColors(
     primary = WinterPrimary,
@@ -56,7 +73,7 @@ fun WeatherApplicationTheme(
     content: @Composable () -> Unit
 ) {
     when(season){
-        Season.WINTER ->{
+        Season.Winter ->{
             MaterialTheme(
                 colors = WinterThemeColor,
                 typography = Typography,
@@ -64,7 +81,7 @@ fun WeatherApplicationTheme(
                 content = content
             )
         }
-        Season.SPRING ->{
+        Season.Spring ->{
             MaterialTheme(
                 colors = SpringThemeColor,
                 typography = Typography,
@@ -72,7 +89,7 @@ fun WeatherApplicationTheme(
                 content = content
             )
         }
-        Season.SUMMER ->{
+        Season.Summer ->{
             MaterialTheme(
                 colors = SummerThemeColor,
                 typography = Typography,
@@ -80,7 +97,7 @@ fun WeatherApplicationTheme(
                 content = content
             )
         }
-        Season.FALL ->{
+        Season.Fall ->{
             MaterialTheme(
                 colors = FallThemeColor,
                 typography = Typography,

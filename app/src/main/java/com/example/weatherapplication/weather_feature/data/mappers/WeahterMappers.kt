@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.weatherapplication.weather_feature.data.data_source.WeatherDataDto
 import com.example.weatherapplication.weather_feature.data.data_source.WeatherDto
+import com.example.weatherapplication.weather_feature.domain.weather.IndexWeatherData
 import com.example.weatherapplication.weather_feature.domain.weather.WeatherData
 import com.example.weatherapplication.weather_feature.domain.weather.WeatherInfo
 import com.example.weatherapplication.weather_feature.domain.weather.WeatherType
@@ -14,14 +15,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-private data class IndexWeatherData(
-    val index: Int,
-    val data: WeatherData
-)
-
 @RequiresApi(Build.VERSION_CODES.O)
 fun WeatherDataDto.toWeatherDataMap(): Map<Int, List<WeatherData>>{
-    Log.e("Time", Gson().toJson(this))
     return time.mapIndexed{index, time ->
         val temperature = temperatures[index]
         val weatherCode = weatherCodes[index]

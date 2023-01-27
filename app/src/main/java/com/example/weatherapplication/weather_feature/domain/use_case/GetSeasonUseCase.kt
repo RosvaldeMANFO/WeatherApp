@@ -15,13 +15,13 @@ class GetSeasonUseCase {
     operator fun invoke(date: LocalDateTime):Season?{
         val month = date!!.monthValue
         if(springMonths.contains(month))
-            return Season.SPRING
+            return Season.Spring
         if(summerMonths.contains(month))
-            return Season.SUMMER
+            return Season.Summer
         if(fallMonths.contains(month))
-            return Season.FALL
+            return Season.Fall
         if(winterMonths.contains(month))
-            return Season.SPRING
+            return Season.Winter
         return null
     }
 }

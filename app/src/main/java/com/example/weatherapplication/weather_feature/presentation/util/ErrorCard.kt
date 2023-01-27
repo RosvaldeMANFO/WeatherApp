@@ -1,6 +1,5 @@
 package com.example.weatherapplication.weather_feature.presentation.util
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -11,16 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weatherapplication.R
-import com.example.weatherapplication.weather_feature.presentation.weather_screen.component.WeatherDataDisplay
-import java.time.format.DateTimeFormatter
-import kotlin.math.roundToInt
 
 @Composable
 fun ErrorCard(

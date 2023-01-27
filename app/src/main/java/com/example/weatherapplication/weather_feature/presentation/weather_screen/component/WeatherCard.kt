@@ -21,15 +21,18 @@ import com.example.weatherapplication.weather_feature.presentation.weather_scree
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 import com.example.weatherapplication.R
+import com.example.weatherapplication.weather_feature.domain.weather.WeatherData
+import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WeatherCard(
-    state: WeatherState,
+    currentWeather: WeatherData?,
     backgroundColor: Color,
     modifier: Modifier = Modifier
 ){
-    state.weatherInfo?.currentWeatherData?.let { data ->
+    val now = LocalDateTime.now()
+    currentWeather?.let { data ->
         Card(
             backgroundColor = backgroundColor,
             shape = RoundedCornerShape(10.dp),
@@ -41,8 +44,10 @@ fun WeatherCard(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Today ${
-                        data.time.format(
+                Text(text = "${
+                    if(now.dayOfYear == currentWeather.time.dayOfYear) "Today"
+                    else "${currentWeather.time.dayOfWeek?.name}"
+                } ${ data.time.format(
                             DateTimeFormatter.ofPattern("HH:mm")
                         )
                     }",

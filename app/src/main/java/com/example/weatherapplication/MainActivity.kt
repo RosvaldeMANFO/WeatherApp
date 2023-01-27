@@ -72,17 +72,20 @@ class MainActivity : ComponentActivity() {
                     )
                 )
             }
+
             setStatusBarColor(season)
             val navController = rememberNavController()
-            WeatherApplicationTheme(
-                season!!
-            ) {
-                NavHost(
-                    navController = navController,
-                    startDestination = Screen.WeatherScreen.route
-                ){
-                    composable(route = Screen.WeatherScreen.route){
-                       WeatherScreen(viewModel)
+            season?.let { season ->
+                WeatherApplicationTheme(
+                    season
+                ) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.WeatherScreen.route
+                    ){
+                        composable(route = Screen.WeatherScreen.route){
+                            WeatherScreen(viewModel, season)
+                        }
                     }
                 }
             }
@@ -94,10 +97,10 @@ class MainActivity : ComponentActivity() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         when(season){
-            Season.WINTER -> window.statusBarColor = ContextCompat.getColor(this, R.color.WinterPrimary)
-            Season.SPRING -> window.statusBarColor = ContextCompat.getColor(this, R.color.SpringPrimary)
-            Season.SUMMER -> window.statusBarColor = ContextCompat.getColor(this, R.color.SummerPrimary)
-            Season.FALL -> window.statusBarColor = ContextCompat.getColor(this, R.color.FallPrimary)
+            Season.Winter -> window.statusBarColor = ContextCompat.getColor(this, R.color.WinterPrimary)
+            Season.Spring -> window.statusBarColor = ContextCompat.getColor(this, R.color.SpringPrimary)
+            Season.Summer -> window.statusBarColor = ContextCompat.getColor(this, R.color.SummerPrimary)
+            Season.Fall -> window.statusBarColor = ContextCompat.getColor(this, R.color.FallPrimary)
         }
     }
 }
