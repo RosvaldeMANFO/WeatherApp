@@ -1,4 +1,4 @@
-package com.example.weatherapplication.weather_feature.presentation.weather_screen.component
+package com.example.weatherapplication.weather_feature.presentation.component
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -23,8 +23,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun HourlyWeatherDisplay(
     weatherData: WeatherData,
+    contentColor: Color,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.White,
 ) {
     val formattedTime = remember(weatherData){
         weatherData.time.format(
@@ -39,7 +39,7 @@ fun HourlyWeatherDisplay(
     ) {
         Text(
             text = formattedTime,
-            color = textColor
+            color = contentColor
         )
         Image(
             painter = painterResource(id = weatherData.weatherType.iconRes),
@@ -48,7 +48,7 @@ fun HourlyWeatherDisplay(
         )
         Text(
             text = "${weatherData.temperatureCelsius}°C",
-            color = textColor,
+            color = contentColor,
             fontWeight = FontWeight.Bold
         )
     }

@@ -4,12 +4,16 @@ import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.Spring
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.example.weatherapplication.R
 import java.time.LocalDateTime
+
+var lightMode = true
 
 sealed class Season(
     val weatherTitle: String,
@@ -67,43 +71,63 @@ private val FallThemeColor = lightColors(
     error = RedWhite
 )
 
+private val DarkMode = darkColors(
+    primary = DarkPrimary,
+    primaryVariant = DarkPrimaryVariant,
+    onPrimary = DarkOnPrimary,
+    secondary = DarkSecondary,
+    onSecondary = DarkOnPrimary,
+    error = RedDark
+)
+
 @Composable
 fun WeatherApplicationTheme(
+    dark: Boolean = isSystemInDarkTheme(),
     season: Season,
     content: @Composable () -> Unit
 ) {
-    when(season){
-        Season.Winter ->{
-            MaterialTheme(
-                colors = WinterThemeColor,
-                typography = Typography,
-                shapes = Shapes,
-                content = content
-            )
-        }
-        Season.Spring ->{
-            MaterialTheme(
-                colors = SpringThemeColor,
-                typography = Typography,
-                shapes = Shapes,
-                content = content
-            )
-        }
-        Season.Summer ->{
-            MaterialTheme(
-                colors = SummerThemeColor,
-                typography = Typography,
-                shapes = Shapes,
-                content = content
-            )
-        }
-        Season.Fall ->{
-            MaterialTheme(
-                colors = FallThemeColor,
-                typography = Typography,
-                shapes = Shapes,
-                content = content
-            )
-        }
-    }
+
+   if(!dark){
+       when(season){
+           Season.Winter ->{
+               MaterialTheme(
+                   colors = WinterThemeColor,
+                   typography = Typography,
+                   shapes = Shapes,
+                   content = content
+               )
+           }
+           Season.Spring ->{
+               MaterialTheme(
+                   colors = SpringThemeColor,
+                   typography = Typography,
+                   shapes = Shapes,
+                   content = content
+               )
+           }
+           Season.Summer ->{
+               MaterialTheme(
+                   colors = SummerThemeColor,
+                   typography = Typography,
+                   shapes = Shapes,
+                   content = content
+               )
+           }
+           Season.Fall ->{
+               MaterialTheme(
+                   colors = FallThemeColor,
+                   typography = Typography,
+                   shapes = Shapes,
+                   content = content
+               )
+           }
+       }
+   }else{
+       MaterialTheme(
+           colors = DarkMode,
+           typography = Typography,
+           shapes = Shapes,
+           content = content
+       )
+   }
 }

@@ -1,4 +1,4 @@
-package com.example.weatherapplication.weather_feature.presentation.weather_screen.component
+package com.example.weatherapplication.weather_feature.presentation.component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -25,8 +25,8 @@ fun WeekWeatherFilterOption(
     weatherOrder: WeatherOrder,
     icon: ImageVector,
     unit: String,
+    iconTint: Color,
     textStyle: TextStyle = TextStyle(),
-    iconTint: Color = Color.White,
     modifier: Modifier = Modifier,
     onClick: (orderType: OrderType?) -> Unit
 ){

@@ -1,24 +1,22 @@
-package com.example.weatherapplication.weather_feature.presentation.weather_screen
+package com.example.weatherapplication.weather_feature.presentation
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapplication.ui.theme.lightMode
 import com.example.weatherapplication.weather_feature.domain.location.LocationTracker
 import com.example.weatherapplication.weather_feature.domain.repository.WeatherRepository
 import com.example.weatherapplication.weather_feature.domain.use_case.OrderWeekWeatherUseCase
-import com.example.weatherapplication.weather_feature.domain.utils.OrderType
 import com.example.weatherapplication.weather_feature.domain.utils.Resource
-import com.example.weatherapplication.weather_feature.domain.utils.WeatherOrder
+import com.example.weatherapplication.weather_feature.domain.weather.DrawerOptionType
 import com.example.weatherapplication.weather_feature.domain.weather.WeatherInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +29,7 @@ class WeatherViewModel @Inject constructor(
     var state by mutableStateOf(WeatherState())
     private set
 
-    fun onEvent(event:  WeatherEvents){
+    fun onEvent(event: WeatherEvents){
         state = when(event){
             is WeatherEvents.ChangeHourlyWeather ->{
                 state.copy(
@@ -53,11 +51,11 @@ class WeatherViewModel @Inject constructor(
                 val now = LocalDateTime.now()
                 currentWeatherData?.let {
                     state.copy(
-                        state.weatherInfo?.weatherDataPearDay?.let { weatherPearDay ->
+                        weatherInfo = state.weatherInfo?.weatherDataPearDay?.let { weatherPearDay ->
                             WeatherInfo(
                                 weatherDataPearDay = weatherPearDay,
                                 currentWeatherData = currentWeatherData.find {
-                                   val hour =  if(now.minute < 30) now.hour else now.hour + 1
+                                    val hour =  if(now.minute < 30) now.hour else now.hour + 1
                                     it.time.hour == hour
                                 }
                             )
@@ -96,6 +94,19 @@ class WeatherViewModel @Inject constructor(
                     isLoading = false,
                     error = "Couldn't retrieve location. Make sure to grant permission and enable gps"
                 )
+            }
+        }
+    }
+
+    fun drawerOptionSelected(
+        option: DrawerOptionType
+    ){
+        when(option){
+            is DrawerOptionType.ToggleMode ->{
+                viewModelScope.launch { lightMode = !lightMode }
+            }
+            is DrawerOptionType.About ->{
+
             }
         }
     }

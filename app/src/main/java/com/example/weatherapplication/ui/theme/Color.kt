@@ -27,4 +27,10 @@ val FallSecondary = Color(0xFF039A7E)
 val RedDark = Color(0xFFB00020)
 val RedWhite = Color(0xFFEF5350)
 
+//Dark Color
+val DarkPrimary = Color(0xFF232225)
+val DarkPrimaryVariant = Color(0xFF646365)
+val DarkSecondary = Color(0xFF646365)
+val DarkOnPrimary = Color(0xFFC0c2BF)
+
 

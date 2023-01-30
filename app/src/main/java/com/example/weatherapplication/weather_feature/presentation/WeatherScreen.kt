@@ -1,6 +1,8 @@
-package com.example.weatherapplication.weather_feature.presentation.weather_screen
+package com.example.weatherapplication.weather_feature.presentation
 
 import android.os.Build
+import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,13 +17,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.weatherapplication.ui.theme.Season
-import com.example.weatherapplication.weather_feature.presentation.util.ErrorCard
-import com.example.weatherapplication.weather_feature.presentation.weather_screen.component.DrawerMenuContent
-import com.example.weatherapplication.weather_feature.presentation.weather_screen.component.WeatherCard
-import com.example.weatherapplication.weather_feature.presentation.weather_screen.component.WeatherForecast
-import com.example.weatherapplication.weather_feature.presentation.weather_screen.component.WeeklyWeather
+import com.example.weatherapplication.ui.theme.lightMode
+import com.example.weatherapplication.weather_feature.presentation.component.*
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -37,46 +37,18 @@ fun WeatherScreen(
         mutableStateOf(PaddingValues(16.dp))
     }
 
-    var isSheetFullScreen by remember { mutableStateOf(false) }
-    val roundedCornerRadius = if (isSheetFullScreen) 0.dp else 10.dp
-    val modifier = if (isSheetFullScreen)
-        Modifier.fillMaxSize()
-    else
-        Modifier.fillMaxWidth()
-
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
                 title = {},
-                navigationIcon = {
-                    IconButton(onClick = {
-                        coroutineScope.launch {
-                            scaffoldState.drawerState.open()
-                        }
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                },
-                actions = { },
             )
         },
-        drawerBackgroundColor = MaterialTheme.colors.primary,
-        drawerContent = {
-            DrawerMenuContent(
-                onClick = {},
-                season = season
-            )
-        },
-        drawerGesturesEnabled = true
-    ) {
+    ) { it ->
         scaffoldContentPadding = it
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .background(color = MaterialTheme.colors.primary)
         ) {
             if(!viewModel.state.isLoading && viewModel.state.error == null){
@@ -90,28 +62,33 @@ fun WeatherScreen(
                         WeatherCard(
                             viewModel.state.weatherInfo?.currentWeatherData,
                             backgroundColor = MaterialTheme.colors.primaryVariant,
+                            contentColor = MaterialTheme.colors.onPrimary
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-                        WeatherForecast(state = viewModel.state) {
+                        WeatherForecast(
+                            state = viewModel.state,
+                            contentColor = MaterialTheme.colors.onPrimary
+                        ) {
                             viewModel.onEvent(WeatherEvents.ChangeHourlyWeather(it))
                         }
                         WeeklyWeather(
-                            modifier = modifier
+                            modifier = Modifier
                                 .background(
                                     shape = RoundedCornerShape(
-                                        topStart = roundedCornerRadius,
-                                        topEnd = roundedCornerRadius
+                                        topStart = 10.dp,
+                                        topEnd = 10.dp
                                     ),
                                     color = MaterialTheme.colors.secondary
                                 )
                                 .align(Alignment.BottomCenter),
                             state = viewModel.state,
-                            onFiltering = {
-                                viewModel.onEvent(WeatherEvents.FilterWeekWeather(it))
+                            onFiltering = { weatherOrder ->
+                                viewModel.onEvent(WeatherEvents.FilterWeekWeather(weatherOrder))
                             },
-                            onClick = {
-                                viewModel.onEvent(WeatherEvents.ChangeDay(it))
-                            }
+                            onClick = { index ->
+                                viewModel.onEvent(WeatherEvents.ChangeDay(index))
+                            },
+                            contentColor = MaterialTheme.colors.onPrimary
                         )
                     }
                 }
@@ -119,10 +96,10 @@ fun WeatherScreen(
             if (viewModel.state.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
-                    color = Color.White
+                    color = MaterialTheme.colors.onPrimary
                 )
             }
-            viewModel.state.error?.let { error ->
+            viewModel.state.error?.let {
                 ErrorCard(
                     icon = Icons.Outlined.CloudOff,
                     errorColor = MaterialTheme.colors.error

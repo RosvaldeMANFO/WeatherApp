@@ -1,9 +1,10 @@
-package com.example.weatherapplication.weather_feature.presentation.weather_screen.component
+package com.example.weatherapplication.weather_feature.presentation.component
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.weatherapplication.R
 import com.example.weatherapplication.weather_feature.domain.utils.OrderType
 import com.example.weatherapplication.weather_feature.domain.utils.WeatherOrder
-import com.example.weatherapplication.weather_feature.presentation.weather_screen.WeatherState
+import com.example.weatherapplication.weather_feature.presentation.WeatherState
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -27,8 +28,9 @@ import kotlin.math.roundToInt
 fun WeeklyWeather(
     modifier: Modifier = Modifier,
     state: WeatherState,
+    contentColor: Color,
     onFiltering: (weatherOrder: WeatherOrder) -> Unit,
-    onClick: (index: Int) -> Unit
+    onClick: (index: Int) -> Unit,
 ){
     val config = LocalConfiguration.current
 
@@ -48,7 +50,7 @@ fun WeeklyWeather(
            ){
                Text(
                    text = "Day",
-                   color = Color.White,
+                   color = contentColor,
                    )
            }
 
@@ -58,9 +60,9 @@ fun WeeklyWeather(
                weatherOrder = WeatherOrder.Pressure(OrderType.Ascending),
                unit = "hpa",
                icon = ImageVector.vectorResource(id = R.drawable.ic_pressure),
-               iconTint = Color.White,
+               iconTint = contentColor,
                textStyle = TextStyle(
-                   color = Color.White
+                   color = contentColor
                )
            ){orderType ->
                onFiltering(WeatherOrder.Pressure(orderType?: OrderType.Ascending))
@@ -71,9 +73,9 @@ fun WeeklyWeather(
                weatherOrder = WeatherOrder.Humidity(OrderType.Ascending),
                unit = "%",
                icon = ImageVector.vectorResource(id = R.drawable.ic_drop),
-               iconTint = Color.White,
+               iconTint = contentColor,
                textStyle = TextStyle(
-                   color = Color.White
+                   color = contentColor
                )
            ){orderType ->
                onFiltering(WeatherOrder.Humidity(orderType?: OrderType.Ascending))
@@ -84,9 +86,9 @@ fun WeeklyWeather(
                weatherOrder = WeatherOrder.TemperatureCelsius(OrderType.Ascending),
                unit = "°C",
                icon = ImageVector.vectorResource(id = R.drawable.ic_sunny),
-               iconTint = Color.White,
+               iconTint = contentColor,
                textStyle = TextStyle(
-                   color = Color.White
+                   color = contentColor
                )
            ){orderType ->
                onFiltering(WeatherOrder.TemperatureCelsius(orderType?: OrderType.Ascending))
@@ -110,14 +112,24 @@ fun WeeklyWeather(
                        horizontalArrangement = Arrangement.SpaceBetween
                    ) {
                        propertyValue("${weather.value.first().time.dayOfWeek.name
-                           .substring(0, 3).uppercase()}."
+                           .substring(0, 3).uppercase()}.",
+                           textColor = contentColor
                        )
 
-                       propertyValue("${weather.value.map { it.pressure }.average().roundToInt()}")
+                       propertyValue(
+                           "${weather.value.map { it.pressure }.average().roundToInt()}",
+                           textColor = contentColor
+                       )
 
-                       propertyValue("${weather.value.map { it.humidity }.average().roundToInt()}")
+                       propertyValue(
+                           "${weather.value.map { it.humidity }.average().roundToInt()}",
+                           textColor = contentColor
+                       )
 
-                       propertyValue("${weather.value.map { it.temperatureCelsius }.average().roundToInt()}")
+                       propertyValue(
+                           "${weather.value.map { it.temperatureCelsius }.average().roundToInt()}",
+                           textColor = contentColor
+                       )
                    }
 
                }
@@ -128,7 +140,7 @@ fun WeeklyWeather(
 @Composable
 fun propertyValue(
     value: String,
-    textColor: Color = Color.White,
+    textColor: Color,
 ){
     val config = LocalConfiguration.current
     Box(

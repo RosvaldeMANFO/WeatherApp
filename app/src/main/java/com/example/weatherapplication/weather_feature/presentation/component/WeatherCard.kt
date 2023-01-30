@@ -1,4 +1,4 @@
-package com.example.weatherapplication.weather_feature.presentation.weather_screen.component
+package com.example.weatherapplication.weather_feature.presentation.component
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -17,7 +17,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weatherapplication.weather_feature.presentation.weather_screen.WeatherState
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 import com.example.weatherapplication.R
@@ -29,6 +28,7 @@ import java.time.LocalDateTime
 fun WeatherCard(
     currentWeather: WeatherData?,
     backgroundColor: Color,
+    contentColor: Color,
     modifier: Modifier = Modifier
 ){
     val now = LocalDateTime.now()
@@ -52,7 +52,7 @@ fun WeatherCard(
                         )
                     }",
                     modifier = Modifier.align( Alignment.End),
-                    color = Color.White
+                    color = contentColor
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
@@ -63,14 +63,14 @@ fun WeatherCard(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "${data.temperatureCelsius}°C",
-                    color = Color.White,
+                    color = contentColor,
                     fontSize = 50.sp,
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = data.weatherType.weatherDesc,
                     fontSize = 20.sp,
-                    color = Color.White
+                    color = contentColor
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(
@@ -81,27 +81,27 @@ fun WeatherCard(
                         value = data.pressure.roundToInt(),
                         unit = "hpa",
                         icon = ImageVector.vectorResource(id = R.drawable.ic_pressure),
-                        iconTint = Color.White,
+                        contentColor = contentColor,
                         textStyle = TextStyle(
-                            color = Color.White
+                            color = contentColor
                         )
                     )
                     WeatherDataDisplay(
                         value = data.humidity.roundToInt(),
                         unit = "%",
                         icon = ImageVector.vectorResource(id = R.drawable.ic_drop),
-                        iconTint = Color.White,
+                        contentColor = contentColor,
                         textStyle = TextStyle(
-                            color = Color.White
+                            color = contentColor
                         )
                     )
                     WeatherDataDisplay(
                         value = data.windSpeed.roundToInt(),
                         unit = "km/h",
                         icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
-                        iconTint = Color.White,
+                        contentColor = contentColor,
                         textStyle = TextStyle(
-                            color = Color.White
+                            color = contentColor
                         )
                     )
                 }
