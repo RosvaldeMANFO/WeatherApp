@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import com.example.weatherapplication.weather_feature.data.data_source.WeatherApi
 import com.example.weatherapplication.weather_feature.data.mappers.toWeatherInfo
 import com.example.weatherapplication.weather_feature.domain.repository.WeatherRepository
+import com.example.weatherapplication.weather_feature.domain.utils.Place
 import com.example.weatherapplication.weather_feature.domain.utils.Resource
 import com.example.weatherapplication.weather_feature.domain.weather.WeatherInfo
 import javax.inject.Inject
@@ -14,13 +15,13 @@ class WeatherRepositoryImpl @Inject constructor(
     private val api: WeatherApi
 ): WeatherRepository {
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getWeatherData(lat: Double, long: Double): Resource<WeatherInfo> {
+    override suspend fun getWeatherData(lat: Double, long: Double, place: Place?): Resource<WeatherInfo> {
         return try{
             Resource.Success(
                 data = api.getWeatherData(
                     lat,
                     long
-                ).toWeatherInfo()
+                ).toWeatherInfo(place)
             )
         } catch (e: Exception){
             e.printStackTrace()

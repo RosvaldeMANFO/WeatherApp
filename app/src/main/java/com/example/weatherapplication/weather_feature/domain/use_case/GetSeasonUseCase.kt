@@ -13,7 +13,7 @@ class GetSeasonUseCase {
     private val winterMonths = listOf(12, 1, 2)
 
     operator fun invoke(date: LocalDateTime):Season?{
-        val month = date!!.monthValue
+        val month = date.monthValue
         if(springMonths.contains(month))
             return Season.Spring
         if(summerMonths.contains(month))

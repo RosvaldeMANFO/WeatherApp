@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.weatherapplication.weather_feature.data.data_source.WeatherDataDto
 import com.example.weatherapplication.weather_feature.data.data_source.WeatherDto
+import com.example.weatherapplication.weather_feature.domain.utils.Place
 import com.example.weatherapplication.weather_feature.domain.weather.IndexWeatherData
 import com.example.weatherapplication.weather_feature.domain.weather.WeatherData
 import com.example.weatherapplication.weather_feature.domain.weather.WeatherInfo
@@ -42,7 +43,7 @@ fun WeatherDataDto.toWeatherDataMap(): Map<Int, List<WeatherData>>{
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun WeatherDto.toWeatherInfo(): WeatherInfo {
+fun WeatherDto.toWeatherInfo(place: Place?): WeatherInfo {
     val weatherDataMap = weatherData.toWeatherDataMap()
     val now = LocalDateTime.now()
     val currentWeatherData = weatherDataMap[0]?.find{
@@ -51,6 +52,7 @@ fun WeatherDto.toWeatherInfo(): WeatherInfo {
     }
     return WeatherInfo(
         weatherDataPearDay = weatherDataMap,
-        currentWeatherData = currentWeatherData
+        currentWeatherData = currentWeatherData,
+        place = place
     )
 }

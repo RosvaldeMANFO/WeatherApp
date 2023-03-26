@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapplication.ui.theme.lightMode
 import com.example.weatherapplication.weather_feature.domain.location.LocationTracker
 import com.example.weatherapplication.weather_feature.domain.repository.WeatherRepository
 import com.example.weatherapplication.weather_feature.domain.use_case.OrderWeekWeatherUseCase
@@ -28,6 +27,8 @@ class WeatherViewModel @Inject constructor(
 
     var state by mutableStateOf(WeatherState())
     private set
+
+    var lightMode by mutableStateOf(false)
 
     fun onEvent(event: WeatherEvents){
         state = when(event){
@@ -57,7 +58,8 @@ class WeatherViewModel @Inject constructor(
                                 currentWeatherData = currentWeatherData.find {
                                     val hour =  if(now.minute < 30) now.hour else now.hour + 1
                                     it.time.hour == hour
-                                }
+                                },
+                                place = state.weatherInfo?.place
                             )
                         }
                     )
@@ -73,7 +75,8 @@ class WeatherViewModel @Inject constructor(
                 error = null
             )
             locationTracker.getCurrentLocation()?.let { location ->
-                when(val result = repository.getWeatherData(location.latitude, location.longitude)){
+                val place = locationTracker.getCurrentPlace(location)
+                when(val result = repository.getWeatherData(location.latitude, location.longitude, place)){
                     is Resource.Success ->{
                         state = state.copy(
                             weatherInfo = result.data,
@@ -103,7 +106,9 @@ class WeatherViewModel @Inject constructor(
     ){
         when(option){
             is DrawerOptionType.ToggleMode ->{
-                viewModelScope.launch { lightMode = !lightMode }
+                viewModelScope.launch {
+                    lightMode = !lightMode
+                }
             }
             is DrawerOptionType.About ->{
 

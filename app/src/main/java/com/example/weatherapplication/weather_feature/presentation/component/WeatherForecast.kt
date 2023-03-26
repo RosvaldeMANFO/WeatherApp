@@ -55,6 +55,8 @@ fun WeatherForecast(
                 selectedTabIndex = selectedIndex?:0,
                 indicator = {},
                 modifier = Modifier.fillMaxWidth()
+                    .background(MaterialTheme.colors.primary),
+                edgePadding = 0.dp
             ){
                 weatherForDay?.forEachIndexed{index, weather ->
                     Tab(

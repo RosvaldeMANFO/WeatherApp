@@ -1,8 +1,6 @@
 package com.example.weatherapplication.weather_feature.presentation
 
 import android.os.Build
-import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,23 +9,19 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.weatherapplication.ui.theme.Season
-import com.example.weatherapplication.ui.theme.lightMode
 import com.example.weatherapplication.weather_feature.presentation.component.*
-import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WeatherScreen(
-    viewModel: WeatherViewModel,
+    viewModel: WeatherViewModel = hiltViewModel(),
     season: Season
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -39,11 +33,6 @@ fun WeatherScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = {
-            TopAppBar(
-                title = {},
-            )
-        },
     ) { it ->
         scaffoldContentPadding = it
         Box(
@@ -60,7 +49,7 @@ fun WeatherScreen(
                 ) {
                     item {
                         WeatherCard(
-                            viewModel.state.weatherInfo?.currentWeatherData,
+                            viewModel.state.weatherInfo,
                             backgroundColor = MaterialTheme.colors.primaryVariant,
                             contentColor = MaterialTheme.colors.onPrimary
                         )

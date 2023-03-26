@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import com.example.weatherapplication.R
 import java.time.LocalDateTime
 
-var lightMode = true
 
 sealed class Season(
     val weatherTitle: String,

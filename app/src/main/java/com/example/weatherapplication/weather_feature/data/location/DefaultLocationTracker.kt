@@ -4,10 +4,12 @@ import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.example.weatherapplication.weather_feature.domain.location.LocationTracker
+import com.example.weatherapplication.weather_feature.domain.utils.Place
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -55,5 +57,19 @@ class DefaultLocationTracker @Inject constructor (
                 }
             }
         }
+    }
+
+    override suspend fun getCurrentPlace(location: Location): Place{
+        val geoCoder = Geocoder(application);
+        var currentPlace = Place();
+        geoCoder.getFromLocation(location.latitude, location.longitude, 1)?.let {
+            currentPlace = currentPlace.copy(
+                region = it.first().adminArea,
+                city = it.first().locality,
+                postalCode = it.first().postalCode
+            )
+
+        }
+        return currentPlace
     }
 }

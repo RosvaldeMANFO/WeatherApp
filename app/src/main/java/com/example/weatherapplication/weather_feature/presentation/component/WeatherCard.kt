@@ -21,18 +21,19 @@ import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 import com.example.weatherapplication.R
 import com.example.weatherapplication.weather_feature.domain.weather.WeatherData
+import com.example.weatherapplication.weather_feature.domain.weather.WeatherInfo
 import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WeatherCard(
-    currentWeather: WeatherData?,
+    weatherInfo: WeatherInfo?,
     backgroundColor: Color,
     contentColor: Color,
     modifier: Modifier = Modifier
 ){
     val now = LocalDateTime.now()
-    currentWeather?.let { data ->
+    weatherInfo?.currentWeatherData?.let { data ->
         Card(
             backgroundColor = backgroundColor,
             shape = RoundedCornerShape(10.dp),
@@ -44,16 +45,15 @@ fun WeatherCard(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "${
-                    if(now.dayOfYear == currentWeather.time.dayOfYear) "Today"
-                    else "${currentWeather.time.dayOfWeek?.name}"
-                } ${ data.time.format(
-                            DateTimeFormatter.ofPattern("HH:mm")
-                        )
-                    }",
-                    modifier = Modifier.align( Alignment.End),
-                    color = contentColor
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Text(text = "${weatherInfo.place?.region}, ${weatherInfo.place?.city}",
+                        color = contentColor,
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
                     painter = painterResource(id = data.weatherType.iconRes),

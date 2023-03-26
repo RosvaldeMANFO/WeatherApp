@@ -42,6 +42,5 @@ class OrderWeekWeatherUseCase {
                 }
             }
         }.mapIndexed{index, weatherData -> index to weatherData }.toMap()
-
     }
 }

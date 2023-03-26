@@ -20,20 +20,17 @@ import com.example.weatherapplication.weather_feature.domain.use_case.GetSeasonU
 import com.example.weatherapplication.weather_feature.presentation.WeatherViewModel
 import com.example.weatherapplication.ui.theme.Season
 import com.example.weatherapplication.ui.theme.WeatherApplicationTheme
-import com.example.weatherapplication.ui.theme.lightMode
 import com.example.weatherapplication.weather_feature.presentation.WeatherScreen
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
 
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: WeatherViewModel by viewModels()
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
-
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,8 +55,9 @@ class MainActivity : ComponentActivity() {
             }
             setStatusBarColor(season)
             season?.let { season ->
+                viewModel.lightMode = isSystemInDarkTheme()
                 WeatherApplicationTheme(
-                    isSystemInDarkTheme(),
+                    viewModel.lightMode,
                     season
                 ) {
                     WeatherScreen(viewModel, season)
@@ -68,6 +66,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setStatusBarColor(
         season: Season?
     ){
@@ -75,7 +74,7 @@ class MainActivity : ComponentActivity() {
         val window: Window = this.window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        if(lightMode){
+        if(viewModel.lightMode){
             when(season){
                 Season.Winter -> window.statusBarColor = ContextCompat.getColor(this, R.color.WinterPrimary)
                 Season.Spring -> window.statusBarColor = ContextCompat.getColor(this, R.color.SpringPrimary)
